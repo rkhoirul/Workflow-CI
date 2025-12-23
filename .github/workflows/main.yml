@@ -15,29 +15,15 @@ jobs:
     steps:
       # Langkah 1: Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      # Langkah 2: Set up Miniconda
+      # Langkah 2: Set up Miniconda and create/activate environment from file
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: 3.13  # Versi Python
-          activate-environment: mlflow  # Nama environment conda
           environment-file: MLProject/conda.yml  # Menggunakan file conda.yml untuk environment
+          activate-environment: heart-disease-env  # Nama environment sesuai conda.yml
 
-      # Langkah 3: Install dependencies dengan Conda
-      - name: Install dependencies
-        run: |
-          # Menjalankan conda init agar shell siap untuk conda activate
-          conda init bash  # Menjalankan perintah 'conda init'
-          source ~/.bashrc  # Memuat konfigurasi shell setelah 'conda init'
-          conda activate mlflow  # Mengaktifkan environment conda
-          pip install -r requirements.txt  # Menginstal dependensi dari requirements.txt
-
-      # Langkah 4: Jalankan Skrip Model (misalnya modelling.py)
+      # Langkah 3: Jalankan Skrip Model (misalnya modelling.py)
       - name: Run modelling.py
-        run: |
-          conda init bash  # Menjalankan perintah 'conda init'
-          source ~/.bashrc  # Memuat konfigurasi shell setelah 'conda init'
-          conda activate mlflow  # Mengaktifkan environment untuk menjalankan skrip
-          python MLProject/modelling.py  # Jalankan skrip modelling.py
+        run: conda run -n heart-disease-env --no-capture-output python MLProject/modelling.py

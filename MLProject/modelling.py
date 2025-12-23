@@ -1,6 +1,8 @@
 import pandas as pd
 import mlflow
 import mlflow.sklearn
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
