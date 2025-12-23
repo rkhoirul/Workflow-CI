@@ -14,11 +14,23 @@ mlflow.sklearn.autolog()
 # Memuat dataset yang sudah dibersihkan
 from pathlib import Path
 print("Memuat dataset...")
-# Resolve dataset path relative to repository root (two levels up from this file is repo root)
+# Resolve dataset path by checking likely locations (project-level and repo root)
 script_dir = Path(__file__).resolve().parent
-data_path = (script_dir.parent / 'dataset_preprocessing' / 'heart_cleaned.csv').resolve()
-if not data_path.exists():
-    raise FileNotFoundError(f"Dataset not found at {data_path} (cwd: {Path.cwd()})")
+candidates = [
+    (script_dir / 'dataset_preprocessing' / 'heart_cleaned.csv').resolve(),
+    (script_dir.parent / 'dataset_preprocessing' / 'heart_cleaned.csv').resolve(),
+]
+# Pick the first existing candidate
+data_path = None
+for p in candidates:
+    if p.exists():
+        data_path = p
+        break
+
+if data_path is None:
+    raise FileNotFoundError(
+        f"Dataset not found. Tried paths: {candidates} (cwd: {Path.cwd()})"
+    )
 # Read dataset using resolved path
 df = pd.read_csv(data_path)
 
