@@ -12,8 +12,15 @@ from sklearn.metrics import accuracy_score
 mlflow.sklearn.autolog()
 
 # Memuat dataset yang sudah dibersihkan
+from pathlib import Path
 print("Memuat dataset...")
-df = pd.read_csv('../dataset_preprocessing/heart_cleaned.csv')
+# Resolve dataset path relative to repository root (two levels up from this file is repo root)
+script_dir = Path(__file__).resolve().parent
+data_path = (script_dir.parent / 'dataset_preprocessing' / 'heart_cleaned.csv').resolve()
+if not data_path.exists():
+    raise FileNotFoundError(f"Dataset not found at {data_path} (cwd: {Path.cwd()})")
+# Read dataset using resolved path
+df = pd.read_csv(data_path)
 
 # Memisahkan fitur (X) dan target (y)
 X = df.drop('target', axis=1)
