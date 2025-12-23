@@ -1,0 +1,13 @@
+name: heart-disease-env
+channels:
+  - defaults
+dependencies:
+  - python=3.13 
+  - pip
+  - pip:
+    - matplotlib>=3.10.7
+    - mlflow>=3.5.0
+    - numpy>=2.3.4
+    - pandas>=2.3.3
+    - scikit-learn>=1.7.2
+    - seaborn>=0.13.2
