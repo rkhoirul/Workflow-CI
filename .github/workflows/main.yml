@@ -21,7 +21,7 @@ jobs:
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: 3.9  # Versi Python
+          python-version: 3.13  # Versi Python
           activate-environment: mlflow  # Nama environment conda
           environment-file: MLProject/conda.yml  # Menggunakan file conda.yml untuk environment
 
