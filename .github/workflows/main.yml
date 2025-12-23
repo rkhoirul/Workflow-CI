@@ -37,16 +37,16 @@ jobs:
           conda activate mlflow  # Pastikan environment aktif
           python MLProject/modelling.py  # Jalankan skrip modelling.py
 
-      # Langkah 5: Upload Artefak (optional, jika diperlukan)
+      # Langkah 5: Upload Artefak (update ke v3)
       - name: Upload model artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # Menggunakan versi v3 yang terbaru
         with:
           name: model-artifact
           path: MLProject/model_output/  # Menyesuaikan dengan lokasi artefak model yang ingin diupload
 
       # Langkah 6: Upload dataset atau hasil lain sebagai artefak (optional)
       - name: Upload clean dataset
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # Menggunakan versi v3 yang terbaru
         with:
           name: heart-cleaned-dataset
           path: MLProject/dataset_preprocessing/heart_cleaned.csv  # Sesuaikan path dataset yang ingin diupload
