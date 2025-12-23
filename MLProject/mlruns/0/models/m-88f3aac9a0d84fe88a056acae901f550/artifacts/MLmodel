@@ -1,0 +1,22 @@
+artifact_path: file:D:/kuliah/semester 7/ASAH/submision/SMSML_Rohmatu_Khoirul_Anam/mlruns/0/models/m-88f3aac9a0d84fe88a056acae901f550/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.7
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+mlflow_version: 3.8.0
+model_id: m-88f3aac9a0d84fe88a056acae901f550
+model_size_bytes: 953
+model_uuid: m-88f3aac9a0d84fe88a056acae901f550
+prompts: null
+run_id: bdbc91108825495284f36d751a4c4688
+utc_time_created: '2025-12-22 21:43:31.283313'
