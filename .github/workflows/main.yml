@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Langkah 2: Set up Conda (menyediakan lingkungan conda)
+      # Langkah 2: Set up Miniconda
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
@@ -28,11 +28,16 @@ jobs:
       # Langkah 3: Install dependencies dengan Conda
       - name: Install dependencies
         run: |
+          # Menjalankan conda init agar shell siap untuk conda activate
+          conda init bash  # Menjalankan perintah 'conda init'
+          source ~/.bashrc  # Memuat konfigurasi shell setelah 'conda init'
           conda activate mlflow  # Mengaktifkan environment conda
           pip install -r requirements.txt  # Menginstal dependensi dari requirements.txt
 
       # Langkah 4: Jalankan Skrip Model (misalnya modelling.py)
       - name: Run modelling.py
         run: |
-          conda activate mlflow  # Pastikan environment aktif
+          conda init bash  # Menjalankan perintah 'conda init'
+          source ~/.bashrc  # Memuat konfigurasi shell setelah 'conda init'
+          conda activate mlflow  # Mengaktifkan environment untuk menjalankan skrip
           python MLProject/modelling.py  # Jalankan skrip modelling.py
