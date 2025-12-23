@@ -3,28 +3,50 @@ name: MLflow Model Training Workflow
 on:
   push:
     branches:
-      - main
+      - main  # Menjalankan workflow pada push ke branch main
+  pull_request:
+    branches:
+      - main  # Menjalankan workflow pada pull request ke branch main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Menjalankan pekerjaan di environment Ubuntu
+
     steps:
+      # Langkah 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Conda
-        uses: conda-incubator/setup-miniconda@v2
+      # Langkah 2: Set up Conda (menyediakan lingkungan conda)
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          conda-version: 4.10  # Pastikan menggunakan versi yang sesuai
-          environment-file: environment.yml  # Jika Anda memiliki environment.yml
-          activate-environment: mlflow-env  # Nama environment Conda Anda
+          python-version: 3.9  # Versi Python
+          activate-environment: mlflow  # Nama environment conda
+          environment-file: MLProject/conda.yml  # Menggunakan file conda.yml untuk environment
 
+      # Langkah 3: Install dependencies dengan Conda
       - name: Install dependencies
         run: |
-          conda activate mlflow-env  # Pastikan untuk mengaktifkan environment yang benar
-          pip install -r requirements.txt
+          conda activate mlflow  # Mengaktifkan environment conda
+          pip install -r requirements.txt  # Menginstal dependensi dari requirements.txt
 
-      - name: Run automation script
+      # Langkah 4: Jalankan Skrip Model (misalnya modelling.py)
+      - name: Run modelling.py
         run: |
-          conda activate mlflow-env
-          python automate_RohmatuKhoirulAnam.py
+          conda activate mlflow  # Pastikan environment aktif
+          python MLProject/modelling.py  # Jalankan skrip modelling.py
+
+      # Langkah 5: Upload Artefak (optional, jika diperlukan)
+      - name: Upload model artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: model-artifact
+          path: MLProject/model_output/  # Menyesuaikan dengan lokasi artefak model yang ingin diupload
+
+      # Langkah 6: Upload dataset atau hasil lain sebagai artefak (optional)
+      - name: Upload clean dataset
+        uses: actions/upload-artifact@v2
+        with:
+          name: heart-cleaned-dataset
+          path: MLProject/dataset_preprocessing/heart_cleaned.csv  # Sesuaikan path dataset yang ingin diupload
