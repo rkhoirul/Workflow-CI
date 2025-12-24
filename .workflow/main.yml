@@ -30,6 +30,7 @@ jobs:
         pip install mlflow pandas scikit-learn matplotlib
 
     # 4. Jalankan Training menggunakan MLflow Run 
-    
+  
     - name: Run MLflow Project
-      run: mlflow run . --env-manager=local
+    
+      run: mlflow run MLProject --env-manager=local
