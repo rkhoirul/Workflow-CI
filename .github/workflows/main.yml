@@ -1,29 +1,35 @@
-name: MLflow Model Training Workflow
+name: CI Workflow
 
 on:
   push:
     branches:
-      - main  # Menjalankan workflow pada push ke branch main
+      - main
   pull_request:
     branches:
-      - main  # Menjalankan workflow pada pull request ke branch main
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Menjalankan pekerjaan di environment Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-      # Langkah 1: Checkout repository
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    # 1. Checkout kode repository
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      # Langkah 2: Set up Miniconda and create/activate environment from file
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          environment-file: MLProject/conda.yml  # Menggunakan file conda.yml untuk environment
-          activate-environment: heart-disease-env  # Nama environment sesuai conda.yml
+    # 2. Setup Python environment
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.13'
 
-      # Langkah 3: Jalankan Skrip Model (misalnya modelling.py)
-      - name: Run modelling.py
-        run: conda run -n heart-disease-env --no-capture-output python MLProject/modelling.py
+    # 3. Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install mlflow pandas scikit-learn matplotlib
+
+    # 4. Jalankan Training menggunakan MLflow Run 
+    
+    - name: Run MLflow Project
+      run: mlflow run . --env-manager=local
