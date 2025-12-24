@@ -9,14 +9,8 @@ from sklearn.metrics import accuracy_score
 mlflow.sklearn.autolog()
 
 # Memuat dataset yang sudah dibersihkan
-from pathlib import Path
 print("Memuat dataset...")
-# Resolve dataset path by checking likely locations (project-level and repo root)
-script_dir = Path(__file__).resolve().parent
-candidates = [
-    (script_dir / 'dataset_preprocessing' / 'heart_cleaned.csv').resolve(),
-    (script_dir.parent / 'dataset_preprocessing' / 'heart_cleaned.csv').resolve(),
-]
+df = pd.read_csv('heart_disease_preprocessing/heart_cleaned_automated.csv')
 
 X = df.drop('target', axis=1)
 y = df['target']
