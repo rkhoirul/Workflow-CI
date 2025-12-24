@@ -1,27 +1,35 @@
-name: Run ML Training
-
+name: CI Workflow
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  train-model:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    # 1. Checkout kode repository
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
+    # 2. Setup Python environment
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.13'
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
+    # 3. Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install mlflow pandas scikit-learn matplotlib
 
-
-      - name: Install MLflow
-        run: pip install mlflow
-
-
-      - name: Run MLflow Project
-        run: mlflow run MLProject
+    # 4. Jalankan Training menggunakan MLflow Run 
+    
+    - name: Run MLflow Project
+      run: mlflow run . --env-manager=local
