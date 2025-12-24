@@ -23,13 +23,15 @@ jobs:
       with:
         python-version: '3.13'
 
-    # 3. Install dependencies
+    # 3. Install dependencies (PERBAIKAN DISINI)
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install mlflow pandas scikit-learn matplotlib
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Install library tambahan jika belum ada di requirements.txt
+        pip install mlflow matplotlib 
 
-    # 4. Jalankan Training menggunakan MLflow Run 
-    
+    # 4. Jalankan Training menggunakan MLflow Run
     - name: Run MLflow Project
       run: mlflow run . --env-manager=local
