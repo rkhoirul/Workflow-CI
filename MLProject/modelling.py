@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score
 mlflow.sklearn.autolog()
 
 print("Memuat dataset...")
-df = pd.read_csv('membangun_model/heart_disease_preprocessing/heart_cleaned_automated.csv')
+df = pd.read_csv('/heart_disease_preprocessing/heart_cleaned_automated.csv')
 
 X = df.drop('target', axis=1)
 y = df['target']
