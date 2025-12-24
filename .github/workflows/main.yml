@@ -24,13 +24,14 @@ jobs:
         python-version: '3.13'
 
     # 3. Install dependencies
-    # Kita install manual saja untuk memastikan semua ter-cover tanpa pusing lokasi file requirements.txt
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install mlflow pandas scikit-learn matplotlib numpy scipy joblib cloudpickle
 
     # 4. Jalankan Training menggunakan MLflow Run
-    # Mengarah ke folder 'MLProject' karena file konfigurasi ada di dalamnya
+    # SOLUSI: Kita masuk ke direktori MLProject dulu, baru jalankan mlflow run di situ (.)
     - name: Run MLflow Project
-      run: mlflow run MLProject --env-manager=local
+      run: |
+        cd MLProject
+        mlflow run . --env-manager=local
